@@ -10,6 +10,8 @@ use String::IRC;
 use Cwd;
 use DoubleDown::Config;
 
+=head1 ATTRIBUTES
+
 =attr _config
 
 Config for L<DoubleDown>.

@@ -3,6 +3,19 @@
 use strict;
 use warnings;
 
+=head1 ABSTRACT
+
+This script allows a user to send a message over the message queue and
+create an irc message that DoubleDown will post.
+
+=head2 Usage
+
+./script/irc_post -c '#dbldown' -m 'I am a bot'
+
+./script/irc_post -s '#mke_dev' -m 'Greetings multiple channels'
+
+=cut
+
 use Getopt::Long::Descriptive;
 use String::Util 'trim';
 use DoubleDown::Core;
