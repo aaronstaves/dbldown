@@ -1,0 +1,10 @@
+/doubledown_local.yml
+*.swp
+.DS_Store
+._.DS_Store
+._*
+*.un~
+*.swo
+.gitconfig
+*.db
+local/

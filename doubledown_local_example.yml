@@ -1,0 +1,75 @@
+app_name: dbldown 
+
+irc:
+  server: irc.perl.org
+  ops:
+    nicks:
+    hosts:
+      - '192.168.1.1'     # ops anyone with a whois from ip address
+      - 'google.com'      # ops anyone with a whois from this domain name
+  channels:
+    - '#dbldown'
+    - '#milwaukee-pm'
+
+  port: 6667              # port to use
+  nick: 'dbldown'         # nick to use
+
+  # defineds channel sets used for posting
+  channelset:
+    mke_dev:
+      - '#dbldown'
+      - '#milwaukee-pm'
+
+# Message queue settings.  This can be used to make dbldown post
+mq:
+  user: mquser
+  pass: abc123
+  host: mq.myhost.com
+  port: 5672
+  vhost: development
+  channel: 1
+
+  # Flow should be gateway (ex) -> DoubleDown (ex) -> <Routing Key> -> queue
+  exchange: gateway
+
+  # A list of queues and seutps
+  queues:
+
+		# Message queue topic (DoubleDown.Message) used to make dbldown post in
+		# a channel or channelset
+    doubledown_message:
+      topic: 'Message'
+
+# Database settings
+db:
+  dsn: DBI:SQLite:dbname=./dd.db
+
+# Any servers dbldown should know about.  These can either be defined as something in 
+# the hosts file or a specific server/ip
+servers:
+  devhost:
+    host: mydevhost
+    git_dir: /opt/myproject/.git
+
+# Plugin information
+plugin:
+
+	# Wunderground API Key
+  weather:
+    api_key: abc123def456
+
+	# JIRA user information
+  jira:
+    jira_url: https://jira.mydomain.com
+    jira_username: jirauser
+    jira_password: abc124def456
+
+	# Lunch king settings
+	lunch: 
+		coup:
+			percentage: 0.5
+
+	# Perl duke settings
+	perl:
+		coup:
+			percentage: 0.5

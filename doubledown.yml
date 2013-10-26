@@ -1,0 +1,9 @@
+app_name: dbldown 
+
+plugin:
+  lunch:
+    coup:
+      percentage: 0.5
+  perl:
+    coup:
+      percentage: 0.5
