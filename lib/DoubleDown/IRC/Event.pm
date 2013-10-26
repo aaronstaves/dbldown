@@ -53,7 +53,7 @@ sub public_msg {
 
 sub private_msg {
 	my $self = shift;
-	my ( $self, $con, $channel, $ircmsg, $nick ) = @_;
+	my ( $self, $channel, $ircmsg, $nick ) = @_;
 
 	my $message = DoubleDown::IRC::Message->new(
 		irc_msg => $ircmsg,

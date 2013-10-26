@@ -300,7 +300,7 @@ sub _load_dir {
 			}
 
 		}
-		elsif ( $file !~ m/^\./ && -d $full_file && $full_file !~ /\/local$/ ) {
+		elsif ( $file !~ m/^\./ && -d $full_file && $full_file !~ /\/local$/ && $full_file !~ /\/bundle$/ ) {
 			$self->_load_dir( $full_file );
 		}
 	}
