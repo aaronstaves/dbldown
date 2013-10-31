@@ -292,6 +292,7 @@ sub _load_dir {
 					$self->debug( message => ( sprintf 'Successfully loaded Module %s from %s', $class, $class_file ), color => $self->debug_on_green);
 					$self->register_commands( $class );
 					$self->register_text_match( $class );
+					$self->init_module( $class );
 				}
 				else {
 					$self->debug( message => ( sprintf 'Failed to load Module %s', $class), color => $self->debug_on_red);
@@ -345,6 +346,18 @@ sub register_text_match {
 				$self->debug( message => ( sprintf 'unable to register command %s to %s::%s. Function does not exist', $regex, $class, $text_match->{ $regex } ), color => $self->debug_on_red);
 			}
 		}
+	}
+}
+
+sub init_module {
+
+	my $self = shift;
+	my $class = shift;
+	$self->debug( message => ( sprintf 'Initializing Module %s', $class), color => $self->debug_on_blue);
+	if ( $class->can('init_module') ) {
+
+		my $plugin   = $class->new();
+		my $text_match = $plugin->init_module();
 	}
 }
 
