@@ -46,9 +46,15 @@ sub _build_channel {
 	# Grab the channel from the irc_msg
 	my $channel = $self->irc_msg->{params}->[0];
 
-	# return undef if it's just an event (i.e. AUTH) since it's
-	# not a channel
-	return $channel =~ m/^#/ ? $channel : undef;
+	# Ignore NOTICE commands from AUTH
+	return undef if $channel eq 'AUTH';
+
+	# If it was a private message set the "channel" to the nick
+	# that sent the message
+	$channel = $self->nick
+		if $self->msg_type eq 'private';
+
+	return $channel;
 
 }
 
@@ -65,6 +71,18 @@ has irc_msg => (
 	required => 1
 );
 
+
+=head2 msg_type
+
+The type of message, public or private
+
+=cut
+
+has msg_type => (
+	is => 'ro',
+	isa => 'Str',
+	default => sub { 'public' }
+);
 
 =head2 nick
 

@@ -45,7 +45,7 @@ sub public_msg {
 
 	my $message = DoubleDown::IRC::Message->new(
 		irc_msg => $ircmsg,
-		type    => 'public'
+		msg_type    => 'public'
 	);
 	$message->process();
 
@@ -57,8 +57,9 @@ sub private_msg {
 
 	my $message = DoubleDown::IRC::Message->new(
 		irc_msg => $ircmsg,
-		type    => 'private'
+		msg_type    => 'private'
 	);
+	$message->process();
 
 }
 
