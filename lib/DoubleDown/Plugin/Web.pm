@@ -23,6 +23,7 @@ sub _build_text_match {
   return {
   '\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))' => {
 			func => 'webpage',
+			match_desc => '<url>',
 			desc => 'Grabs webpage title and outputs in channel'
 		}
   };

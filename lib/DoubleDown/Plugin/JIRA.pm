@@ -31,7 +31,8 @@ sub _build_text_match {
   return {
   	'[A-Za-z0-9]+?\-\d+' => {
 			func => 'get_ticket',
-			desc => 'Outputs JIRA ticket information matching ABCD-1234'
+			match_desc => '<JIRA Ticket #>',
+			desc => 'Outputs JIRA ticket information'
 		}
   }
 }

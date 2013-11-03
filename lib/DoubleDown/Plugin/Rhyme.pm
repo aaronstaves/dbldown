@@ -18,6 +18,7 @@ sub _build_commands {
   return {
     '^rhyme .+$' => {
 			func => 'process',
+			match_desc => 'rhyme <text>',
 			desc => 'Attempts to rhyme any text given'
 		}
   };

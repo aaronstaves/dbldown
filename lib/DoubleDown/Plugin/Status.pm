@@ -26,6 +26,7 @@ sub _build_commands {
   return {
     '^status (.+)$$' => {
 			func => 'process',
+			match_desc => 'status <server>',
 			desc => 'Queries the status of a server from the config'
 		}
   }

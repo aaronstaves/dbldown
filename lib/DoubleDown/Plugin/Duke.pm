@@ -23,10 +23,12 @@ sub _build_commands {
   return {
     '^perl duke$' => {
 			func => 'duke',
+			match_desc => 'perl duke',
 			desc => 'Selects a perl duke from current channel'
 		},
     '^perl coup$' => {
 			func => 'coup',
+			match_desc => 'perl coup',
 			desc => 'Initiates a perl coup'
 		}
   };

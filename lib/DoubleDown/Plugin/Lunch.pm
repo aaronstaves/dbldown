@@ -22,10 +22,12 @@ sub _build_commands {
 	return {
 		'^lunch king$' => {
 			func => 'king',
+			match_desc => 'lunch king',
 			desc => 'Selects a lunch king from the current channel'
 		},
 		'^lunch coup$' => {
 			func => 'coup',
+			match_desc => 'lunch coup',
 			desc => 'Initiates a lunch coup'
 		}
 	}

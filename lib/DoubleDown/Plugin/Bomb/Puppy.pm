@@ -22,6 +22,7 @@ sub _build_commands {
   return {
     '^puppy bomb$' => {
 			func => 'process',
+			match_desc => 'puppy bomb',
 			desc => 'Outputs random pictures of puppies'
 		}
   }

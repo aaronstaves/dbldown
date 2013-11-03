@@ -29,18 +29,22 @@ sub _build_text_match {
   return { 
 		'^.+$' => {
 			func => 'find_meme',
+			match_desc => '<text>',
 			desc => 'Attempts to match a meme with any text seen'
 		},
 		'^show memes$' => {
 			func => 'show_memes',
+			match_desc => 'show memes',
 			desc => 'Lists memes in the current DB (private)'
 		},
 		'^add meme (.+?) (.+)$' => {
 			func => 'add_meme',
+			match_desc => 'add meme <match> <img>',
 			desc => 'Adds meme to the current DB (private)'
 		},
 		'^rm meme \d+$' => {
 			func => 'rm_meme',
+			match_desc => 'rm meme <id>',
 			desc => 'Removes a meme from the current DB (private)'
 		}
 	};

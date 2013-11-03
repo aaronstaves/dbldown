@@ -18,10 +18,12 @@ sub _build_text_match {
   return {
     '^(\S+)?\s*s\/(.+?)\/([^\/]+)' => {
 			func => 'process',
-			desc => 'Substitues using s/orig/sub or <nick> s/orig/sub'
+			match_desc => 's/orig/sub or <nick> s/orig/sub',
+			desc => 'Substitues original text with new text'
 		},
     '^.+$' => {
 			func => 'stash_last_msg',
+			match_desc => '<text>',
 			desc => 'Stores last text entered in by any user'
 		}
   };

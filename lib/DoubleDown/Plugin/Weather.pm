@@ -25,11 +25,13 @@ sub _build_commands {
   return {
     '^weather \d{5}$'=> {
 			func => 'conditions',
-			desc => 'Gives current weather information when given "weather <zip_code>'
+			match_desc => 'weather <zip_code>',
+			desc => 'Gives current weather information'
 		},
     '^weather forecast \d{5}$'=>  {
 			func => 'forecast',
-			desc => 'Gives current weather information when given "weather forecast <zip_code>'
+			match_desc => 'weather forecast <zip_code>',
+			desc => 'Gives current weather forecast'
 		}
   };
 }

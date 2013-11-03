@@ -33,6 +33,7 @@ sub _build_text_match {
   return {
     '(?:(?<=ha)(ha)|(ha)(?=ha))' =>  {
 			func => 'lolcon_level',
+			match_desc => 'haha+',
 			desc => 'Turns number of ha\'s into LOLCON level'
 		}
   };
