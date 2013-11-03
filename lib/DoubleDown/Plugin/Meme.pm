@@ -28,7 +28,9 @@ sub _build_text_match {
 
   return { 
 		'^.+$' => 'find_meme',
-		'^show memes$' => 'show_memes'
+		'^show memes$' => 'show_memes',
+		'^add meme (.+?) (.+)$' => 'add_meme',
+		'^rm meme \d+$' => 'rm_meme'
 	};
 }
 
@@ -84,7 +86,7 @@ sub find_meme {
 	$core->debug( message => sprintf( "Attempting to find meme matching '%s'" , $message->text ), color => $core->debug_on_cyan);
 
   my $sth = $db->execute("SELECT * FROM " . $self->meme_table);
-  if (my $row = $sth->fetchrow_hashref) {
+  while (my $row = $sth->fetchrow_hashref) {
 		my $match = $row->{match};
 		my $image = $row->{image};
 		if ( $message->text =~ m/$match/ ) { 
@@ -123,6 +125,49 @@ sub show_memes {
 	}
 
 }
+
+sub add_meme {
+	my ( $self, $message ) = @_;
+
+	# Only show meme commands in private
+	return if $message->msg_type ne 'private';
+
+	my $core = DoubleDown::Core->instance();
+	my $db = $core->db;
+	my $con  = $core->irc->_con;
+	my $channel = $message->channel;
+	my $parts = $message->parts;
+
+	my $match = $parts->[2];
+	my $image = $parts->[3];
+
+  my $sth = $db->execute("INSERT INTO " . $self->meme_table . '(match, image) VALUES(?,?)', $match, $image);
+	$con->send_msg( undef, PRIVMSG => $channel, String::IRC->new( sprintf( "Added image '%s' with match /%s/", $image, $match ) )->white('black') );
+
+}
+
+sub rm_meme {
+	my ( $self, $message ) = @_;
+
+	# Only show meme commands in private
+	return if $message->msg_type ne 'private';
+
+	my $core = DoubleDown::Core->instance();
+	my $db = $core->db;
+	my $con  = $core->irc->_con;
+	my $channel = $message->channel;
+	my $parts = $message->parts;
+
+	my $id = $parts->[2];
+  my $sth = $db->execute("SELECT * FROM " . $self->meme_table . " WHERE id=?", $id);
+  if (my $row = $sth->fetchrow_hashref) {
+
+  	$sth = $db->execute( "DELETE FROM " . $self->meme_table . ' WHERE id=?', $id );
+		$con->send_msg( undef, PRIVMSG => $channel, String::IRC->new( sprintf( "Removed meme /%s/ with id %d", $row->{match}, $row->{id} ) )->white('black') );
+	}
+
+}
 1;
+
 
 
