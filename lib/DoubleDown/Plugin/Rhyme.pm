@@ -16,7 +16,10 @@ has commands => (
 
 sub _build_commands {
   return {
-    '^rhyme .+$' => 'process',
+    '^rhyme .+$' => {
+			func => 'process',
+			desc => 'Attempts to rhyme any text given'
+		}
   };
 }
 

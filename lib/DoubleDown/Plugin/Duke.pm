@@ -21,8 +21,14 @@ has commands => (
 
 sub _build_commands {
   return {
-    '^perl duke$' => 'duke',
-    '^perl coup$' => 'coup',
+    '^perl duke$' => {
+			func => 'duke',
+			desc => 'Selects a perl duke from current channel'
+		},
+    '^perl coup$' => {
+			func => 'coup',
+			desc => 'Initiates a perl coup'
+		}
   };
 }
 

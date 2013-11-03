@@ -23,8 +23,14 @@ has commands => (
 
 sub _build_commands {
   return {
-    '^weather \d{5}$'=> 'conditions',
-    '^weather forecast \d{5}$'=> 'forecast',
+    '^weather \d{5}$'=> {
+			func => 'conditions',
+			desc => 'Gives current weather information when given "weather <zip_code>'
+		},
+    '^weather forecast \d{5}$'=>  {
+			func => 'forecast',
+			desc => 'Gives current weather information when given "weather forecast <zip_code>'
+		}
   };
 }
 

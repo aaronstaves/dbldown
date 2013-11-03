@@ -27,10 +27,22 @@ has text_match => (
 sub _build_text_match {
 
   return { 
-		'^.+$' => 'find_meme',
-		'^show memes$' => 'show_memes',
-		'^add meme (.+?) (.+)$' => 'add_meme',
-		'^rm meme \d+$' => 'rm_meme'
+		'^.+$' => {
+			func => 'find_meme',
+			desc => 'Attempts to match a meme with any text seen'
+		},
+		'^show memes$' => {
+			func => 'show_memes',
+			desc => 'Lists memes in the current DB (private)'
+		},
+		'^add meme (.+?) (.+)$' => {
+			func => 'add_meme',
+			desc => 'Adds meme to the current DB (private)'
+		},
+		'^rm meme \d+$' => {
+			func => 'rm_meme',
+			desc => 'Removes a meme from the current DB (private)'
+		}
 	};
 }
 

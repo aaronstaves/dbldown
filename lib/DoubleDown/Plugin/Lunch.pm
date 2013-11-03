@@ -20,8 +20,14 @@ has commands => (
 sub _build_commands {
 
 	return {
-		'^lunch king$' => 'king',
-		'^lunch coup$' => 'coup',
+		'^lunch king$' => {
+			func => 'king',
+			desc => 'Selects a lunch king from the current channel'
+		},
+		'^lunch coup$' => {
+			func => 'coup',
+			desc => 'Initiates a lunch coup'
+		}
 	}
 }
 

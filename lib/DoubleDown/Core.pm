@@ -317,12 +317,12 @@ sub register_commands {
 		my $plugin   = $class->new();
 		my $commands = $plugin->commands;
 		foreach my $regex ( keys %{ $commands } ) {
-			if ( $plugin->can ( $commands->{ $regex } ) ) {
-				$self->debug( message => ( sprintf 'registering command %s to %s::%s', $regex, $class, $commands->{ $regex } ), color => $self->debug_on_yellow);
+			if ( $plugin->can ( $commands->{ $regex }->{func} ) ) {
+				$self->debug( message => ( sprintf 'registering command %s to %s::%s', $regex, $class, $commands->{ $regex }->{func} ), color => $self->debug_on_yellow);
 				$self->_commands->{ $class }->{ $regex } = $commands->{ $regex };
 			}
 			else {
-				$self->debug( message => ( sprintf 'unable to register command %s to %s::%s. Function does not exist', $regex, $class, $commands->{ $regex } ), color => $self->debug_on_red);
+				$self->debug( message => ( sprintf 'unable to register command %s to %s::%s. Function does not exist', $regex, $class, $commands->{ $regex }->{func} ), color => $self->debug_on_red);
 			}
 		}
 	}
@@ -338,12 +338,12 @@ sub register_text_match {
 		my $plugin   = $class->new();
 		my $text_match = $plugin->text_match;
 		foreach my $regex ( keys %{ $text_match} ) {
-			if ( $plugin->can ( $text_match->{ $regex } ) ) {
-				$self->debug( message => ( sprintf 'registering text_match %s to %s::%s', $regex, $class, $text_match->{ $regex } ), color => $self->debug_on_yellow);
+			if ( $plugin->can ( $text_match->{ $regex }->{func} ) ) {
+				$self->debug( message => ( sprintf 'registering text_match %s to %s::%s', $regex, $class, $text_match->{ $regex }->{func} ), color => $self->debug_on_yellow);
 				$self->_text_match->{ $class }->{ $regex } = $text_match->{ $regex };
 			}
 			else {
-				$self->debug( message => ( sprintf 'unable to register command %s to %s::%s. Function does not exist', $regex, $class, $text_match->{ $regex } ), color => $self->debug_on_red);
+				$self->debug( message => ( sprintf 'unable to register command %s to %s::%s. Function does not exist', $regex, $class, $text_match->{ $regex }->{func} ), color => $self->debug_on_red);
 			}
 		}
 	}

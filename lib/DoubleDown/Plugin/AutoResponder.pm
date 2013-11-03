@@ -31,7 +31,10 @@ has text_match => (
 
 sub _build_text_match {
   return {
-    '(?:(?<=ha)(ha)|(ha)(?=ha))' =>  'lolcon_level',
+    '(?:(?<=ha)(ha)|(ha)(?=ha))' =>  {
+			func => 'lolcon_level',
+			desc => 'Turns number of ha\'s into LOLCON level'
+		}
   };
 }
 

@@ -16,8 +16,14 @@ has text_match => (
 
 sub _build_text_match {
   return {
-    '^(\S+)?\s*s\/(.+?)\/([^\/]+)' => 'process',
-    '^.+$' => 'stash_last_msg'
+    '^(\S+)?\s*s\/(.+?)\/([^\/]+)' => {
+			func => 'process',
+			desc => 'Substitues using s/orig/sub or <nick> s/orig/sub'
+		},
+    '^.+$' => {
+			func => 'stash_last_msg',
+			desc => 'Stores last text entered in by any user'
+		}
   };
 }
 

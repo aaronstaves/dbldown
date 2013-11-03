@@ -21,8 +21,11 @@ has text_match => (
 sub _build_text_match {
 
   return {
-  '\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))' => 'webpage'
-  }
+  '\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))' => {
+			func => 'webpage',
+			desc => 'Grabs webpage title and outputs in channel'
+		}
+  };
 }
 
 sub webpage {

@@ -20,7 +20,10 @@ has commands => (
 sub _build_commands {
 
   return {
-    '^puppy bomb$' => 'process',
+    '^puppy bomb$' => {
+			func => 'process',
+			desc => 'Outputs random pictures of puppies'
+		}
   }
 }
 

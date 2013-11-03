@@ -216,7 +216,7 @@ sub process_command {
 
 		foreach my $regex ( keys %{ $classes->{ $class } } ) {
 			if ( $command =~ m/$regex/ ) {
-				my $func = $classes->{ $class }->{ $regex };
+				my $func = $classes->{ $class }->{ $regex }->{func};
 				$core->debug(
 					message => sprintf( "command matches '%s' routing to %s::%s", $regex, $class, $func ),
 					color   => $core->debug_on_magenta
@@ -247,7 +247,7 @@ sub process_text {
 
 		foreach my $regex ( keys %{ $classes->{ $class } } ) {
 			if ( $text =~ m/$regex/ ) {
-				my $func = $classes->{ $class }->{ $regex };
+				my $func = $classes->{ $class }->{ $regex }->{func};
 				$core->debug(
 					message => sprintf( "text matches '%s' routing to %s::%s", $regex, $class, $func ),
 					color   => $core->debug_on_magenta

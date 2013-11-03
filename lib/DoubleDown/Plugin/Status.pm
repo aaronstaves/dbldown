@@ -24,7 +24,10 @@ has commands => (
 sub _build_commands {
 
   return {
-    '^status (.+)$$' => 'process',
+    '^status (.+)$$' => {
+			func => 'process',
+			desc => 'Queries the status of a server from the config'
+		}
   }
 }
 
