@@ -9,8 +9,7 @@ use strict;
 use warnings;
 
 use Moose;
-use MooseX::NonMoose;
-use LWP::UserAgent;
+use MooseX::NonMoose; use LWP::UserAgent;
 
 has meme_table => (
 	is => 'ro',
@@ -28,7 +27,8 @@ has text_match => (
 sub _build_text_match {
 
   return { 
-		'^.+$' => 'find_meme'
+		'^.+$' => 'find_meme',
+		'^show memes$' => 'show_memes'
 	};
 }
 
@@ -93,6 +93,35 @@ sub find_meme {
 
 		}
 	}
+}
+
+sub show_memes {
+	my ( $self, $message ) = @_;
+
+	# Only show meme commands in private
+	return if $message->msg_type ne 'private';
+
+	my $core = DoubleDown::Core->instance();
+	my $db = $core->db;
+	my $con  = $core->irc->_con;
+	my $channel = $message->channel;
+
+
+  my $sth = $db->execute("SELECT * FROM " . $self->meme_table);
+	my $rows = [ ];
+	push @{ $rows }, [ 'ID', 'Match', 'Image' ];
+  while (my $row = $sth->fetchrow_hashref) {
+		my $id    = $row->{id};
+		my $match = $row->{match};
+		my $image = $row->{image};
+		push @{ $rows }, [ $id, $match, $image ];
+	}
+	my $output = $core->irc->table( $rows );
+	foreach my $line ( @{ $output } ) {
+		#$con->send_msg( undef, PRIVMSG => $channel, String::IRC->new( sprintf( '%i - /%s/ - %s', $id, $match, $image ) )->white('black') );
+		$con->send_msg( undef, PRIVMSG => $channel, String::IRC->new( $line )->white('black') );
+	}
+
 }
 1;
 
