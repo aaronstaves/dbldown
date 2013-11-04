@@ -33,12 +33,13 @@ sub webpage {
 	my ( $self, $message ) = @_;
 
 	my $core = DoubleDown::Core->instance;
+	my $conf = $core->_config();
 	my $con  = $core->irc->_con;
 	my $channel = $message->channel;
 	foreach my $part ( @{ $message->parts } ) {
 
-		next if ( $part =~ m/jira\.corvisa\.com/i );
-		next if ( $part =~ m/thor\.it\.corp/i );
+		my $jira_url = $conf->{plugin}{jira}{jira_url};
+		next if ( $part =~ m/$jira_url/i );
 
 		# Whoops, this is a crazy url, any better url matches ?
 		if ( $part =~ m{\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))} ) {

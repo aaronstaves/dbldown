@@ -113,6 +113,7 @@ sub get_ticket {
 	my ( $self, $message ) = @_;
 
 	my $core = DoubleDown::Core->instance;
+	my $conf = $core->_config();
 	my $con  = $core->irc->_con;
 	my $channel = $message->channel;
 	my $jira = $self->jira;
@@ -136,7 +137,7 @@ sub get_ticket {
 			next if !defined $issue;
 
 			# If it matches a url, no need to re-output the url
-			my $line1 = sprintf ( "https://jira.corvisa.com/browse/%s ( %s )", $ticket, $self->statuses->{ $issue->{status} } );
+			my $line1 = sprintf ( "%s/browse/%s ( %s )", $conf->{plugin}{jira}{jira_url}, $ticket, $self->statuses->{ $issue->{status} } );
 			if ( $part =~ m/https*\:\/\// ) {
 				$line1 = sprintf( 'Status: %s', $self->statuses->{ $issue->{status} } );
 			}
