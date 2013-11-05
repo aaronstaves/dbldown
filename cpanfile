@@ -1,9 +1,11 @@
+requires 'namespace::autoclean';
 requires 'AnyEvent';
 requires 'AnyEvent::IRC::Client';
 requires 'AnyEvent::RabbitMQ';
 requires 'Config::JFDI';
 requires 'Cwd';
 requires 'DBI';
+requires 'DBD::SQLite';
 requires 'Dir::Self';
 requires 'Encode';
 requires 'Git::Repository';

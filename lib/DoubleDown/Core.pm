@@ -9,6 +9,7 @@ use POSIX;
 use String::IRC;
 use Cwd;
 use DoubleDown::Config;
+use DoubleDown::DB;
 
 =head1 ATTRIBUTES
 
@@ -153,7 +154,7 @@ has 'db' => (
     isa => 'DoubleDown::DB',
     is => 'rw',
 		lazy => 1,
-    default => sub { return DoubleDown::DB->new(); }
+    default => sub { return DoubleDown::DB->instance(); }
 );
 
 =attr nickmon
@@ -180,7 +181,7 @@ sub connect {
 
 	$self->irc->connect( sub {
 
-		if ( defined $config->{mq} ) { 
+		if ( defined $config->{mq} ) {
 			$self->mq->connect;
 		}
     $self->nickmon;
