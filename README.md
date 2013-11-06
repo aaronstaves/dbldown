@@ -5,9 +5,10 @@ DoubleDown is a Perl based IRC bot that uses a plugin-based system.
 
 ## Installation ##
 
-    cd bundle
-    ./bootstrap
-    cd ..
+Installation of dbldown is fairly straight forward.  You will need to install carton from either [github](https://github.com/miyagawa/carton) or [cpan](http://search.cpan.org/~miyagawa/Carton-v1.0.12/lib/Carton.pm).
+
+Once carton is installed you can install dependencies by executing the following
+
     carton install
 
 ## Configuration ##
