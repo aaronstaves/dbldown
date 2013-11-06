@@ -41,7 +41,6 @@ sub process {
 		my $width = int ( rand ( 200 ) ) + 300;
 		my $height = int ( rand ( 200 ) ) + 300;
 		$con->send_msg( undef, PRIVMSG => $channel, sprintf("http://placekitten.com/%i/%i#.png", $width, $height ) );
-		sleep(5);
 	}
 
 }
