@@ -17,7 +17,7 @@ There are 3 types of config files that dbldown will use.
 
 1. Global Config   - doubledown.yml
 2. Local Config    - doubledown\_local.yml
-3. Runtime Config  - config/<filename>.yml
+3. Runtime Config  - config/filename.yml
 
 These files are loaded in the order listed above, and the runtime config will overwrite the local config, and the Local config will overwrite the global config
 
