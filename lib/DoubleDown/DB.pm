@@ -18,6 +18,9 @@ sub _build__dbh {
   my ($self) = @_;
   my $core = DoubleDown::Core->instance;
   my $conf = $core->_config;
+	if ( !defined $conf->{db} && !defined $conf->{db}->{dsn} ) {
+		die ( 'Attempting to use DoubleDown::DB without defining any db settings in your config?' );
+	}
   return DBI->connect($conf->{db}->{dsn});
 }
 

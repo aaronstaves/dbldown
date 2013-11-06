@@ -1,5 +1,7 @@
 app_name: dbldown 
 
+test: abc123
+
 plugin:
   lunch:
     coup:

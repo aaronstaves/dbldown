@@ -8,6 +8,7 @@ requires 'DBI';
 requires 'DBD::SQLite';
 requires 'Dir::Self';
 requires 'Encode';
+requires 'Getopt::Long::Descriptive';
 requires 'Git::Repository';
 requires 'JIRA::Client';
 requires 'JSON';

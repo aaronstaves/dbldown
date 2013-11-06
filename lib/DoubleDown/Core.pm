@@ -19,6 +19,11 @@ Config for L<DoubleDown>.
 
 =cut
 
+has 'config_file' => (
+	isa => 'Maybe[Str]',
+	is  => 'ro',
+);
+
 has '_config' => (
     isa        => 'HashRef',
     is         => 'rw',
@@ -28,7 +33,7 @@ has '_config' => (
 
 sub _build__config {
     my $self = shift;
-    return DoubleDown::Config->instance->config;
+    return DoubleDown::Config->new({ config_file => $self->config_file })->config;
 }
 
 =attr _stash

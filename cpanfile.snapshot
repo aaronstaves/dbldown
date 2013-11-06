@@ -769,6 +769,25 @@ DISTRIBUTIONS
       parent 0.221
       strict 0
       vars 0
+  Getopt-Long-Descriptive-0.096
+    pathname: R/RJ/RJBS/Getopt-Long-Descriptive-0.096.tar.gz
+    provides:
+      Getopt::Long::Descriptive 0.096
+      Getopt::Long::Descriptive::Opts 0.096
+      Getopt::Long::Descriptive::Usage 0.096
+    requirements:
+      Carp 0
+      ExtUtils::MakeMaker 6.30
+      File::Basename 0
+      Getopt::Long 2.33
+      List::Util 0
+      Params::Validate 0.97
+      Scalar::Util 0
+      Sub::Exporter 0.972
+      Sub::Exporter::Util 0
+      overload 0
+      strict 0
+      warnings 0
   Getopt-Usaginator-0.0012
     pathname: R/RO/ROKR/Getopt-Usaginator-0.0012.tar.gz
     provides:

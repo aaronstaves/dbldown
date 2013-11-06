@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-carton exec perl -I./lib bin/run_bot.pl 
+echo "executing with $@";
+carton exec perl -I./lib bin/run_bot.pl "$@"

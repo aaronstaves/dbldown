@@ -17,6 +17,11 @@ use MooseX::Singleton;
 use Config::JFDI;
 use Dir::Self;
 
+has 'config_file' => (
+	isa => 'Maybe[Str]',
+	is  => 'ro'
+);
+
 has 'config' => (
     isa        => 'HashRef',
     is         => 'ro',
@@ -25,18 +30,41 @@ has 'config' => (
 
 sub _build_config {
     my $self = shift;
-    my $config = Config::JFDI->new( name => 'DoubleDown', path => $self->config_dir );
-    return $config->get();
+		my $core = DoubleDown::Core->instance;
+		my %config;
+
+		$core->debug( message => 'Loading DoubleDown specific config', color => $core->debug_yellow );
+    my $dbldown_config = Config::JFDI->new( name => 'DoubleDown', path => $self->base_config_dir )->get();
+		%config = ( %config, %{ $dbldown_config } );
+
+		if ( defined $self->config_file ) {
+			my $config_file = $self->file_config_dir . '/' . $self->config_file . '.yml';
+			$core->debug( message => sprintf( 'Loading %s config', $config_file ), color => $core->debug_yellow );
+    	my $file_config = Config::JFDI->new( file => $config_file )->get();
+			%config = ( %config, %{ $file_config} );
+		}
+
+    return \%config
 }
 
-has 'config_dir' => (
+has 'base_config_dir' => (
     isa        => 'Str',
     is         => 'rw',
     lazy_build => 1,
 );
 
-sub _build_config_dir {
+sub _build_base_config_dir {
     return __DIR__ . '/../../';
+}
+
+has 'file_config_dir' => (
+    isa        => 'Str',
+    is         => 'rw',
+    lazy_build => 1,
+);
+
+sub _build_file_config_dir {
+    return __DIR__ . '/../../config';
 }
 
 1;
