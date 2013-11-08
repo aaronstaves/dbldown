@@ -33,31 +33,67 @@ sub process {
 	my $channel = $message->channel;
 	my $nick    = $message->nick;
 
-	$message->text =~ m{
-    ^(\S+)?
-    \s*
-    s/
-    (.+?)
-    /
-    ([^/]+)
-  }x;
+	my ( $fixed, $user ) = $self->_perform_substitution($message);
+	if ($fixed) {
+		$con->send_msg( undef, PRIVMSG => $channel, "<$user> " . $fixed );
+		$core->stash->{last_msg}->{$channel}->{$user} = $fixed;
+	}
+}
 
-	my $user     = $1 // $nick;
-	my $search   = $2;
-	my $replace  = $3;
-	my $last_msg = $core->stash->{last_msg}->{$channel}->{$user};
-	$core->debug(
-		message => sprintf(
-			'search and replace "%s" with "%s" in %s for %s in channel %s',
-			$search, $replace, $last_msg, $nick, $channel
-		)
-	);
+sub _perform_substitution {
+	my $self    = shift;
+	my $message = shift;
 
-	my $fixed = $last_msg;
-	$fixed =~ s/$search/$replace/g;
+	my $core = DoubleDown::Core->instance;
 
-	$con->send_msg( undef, PRIVMSG => $channel, "<$user> " . $fixed ) if $fixed ne $last_msg;
-	$core->stash->{last_msg}->{$channel}->{$user} = $fixed;
+	my $text = $message->text;
+	my $nick = $message->nick;
+
+	my $fixed = undef;
+	my $user  = undef;
+
+	if (
+		$text =~ m{
+			^
+			(?<nick> \S+)?     # $1: optional nick
+			\s*                # optional amount of spacing
+			s/                 # start search/replace regex
+			(?<search> .+)     # $2: search for chars...
+			(?<!\\)            #     until reach an unescaped...
+			/                  #     slash
+			(?<replace> .+)    # $3: replace with chars
+			/                  # end regex
+			(?<mods> [gi]+)?   # $4: optional mods
+		  }x
+	  )
+	{
+
+		$user = $+{nick} // $nick;
+		my $search  = $+{search};
+		my $replace = $+{replace};
+		my %mods    = map { $_ => 1 } split( '', $+{mods} // '' );
+
+		my $last_msg = $core->stash->{last_msg}->{ $message->channel }->{$user};
+		$fixed = $last_msg;
+
+		# TODO: can't use vars for modifiers, any better ideas?
+		if ( $mods{g} && $mods{i} ) {
+			$fixed =~ s/$search/$replace/gi;
+		}
+		elsif ( $mods{g} ) {
+			$fixed =~ s/$search/$replace/g;
+		}
+		elsif ( $mods{i} ) {
+			$fixed =~ s/$search/$replace/i;
+		}
+		else {
+			$fixed =~ s/$search/$replace/;
+		}
+
+		$fixed = undef if $fixed eq $last_msg;
+	}
+
+	return ( $fixed, $user );
 }
 
 sub stash_last_msg {
