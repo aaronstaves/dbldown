@@ -9,3 +9,4 @@
 *.db
 local/
 config/
+cpanfile.snapshot
