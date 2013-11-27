@@ -29,7 +29,12 @@ sub _build_commands {
 			func => 'coup',
 			match_desc => 'lunch coup',
 			desc => 'Initiates a lunch coup'
-		}
+		},
+        '^lunch abdicate$' => {
+            func => 'abdicate',
+            match_desc => 'lunch abdicate',
+            desc => 'Abdicates the Lunch Throne'
+        }
 	}
 }
 
@@ -105,7 +110,7 @@ sub coup {
 	# New coup
 	else {
   	$core->debug( message => "Attempting coup!", color => $core->debug_cyan );
-		$con->send_msg( undef, PRIVMSG => $channel, String::IRC->new("*** A coup has been initiated by $nick!***")->yellow('black') );
+		$con->send_msg( undef, PRIVMSG => $channel, String::IRC->new("*** A coup has been initiated by $nick! ***")->yellow('black') );
 
 		# Reset lunch stash
 		$stash->{lunch}{coup}{active} = 1;
@@ -125,6 +130,7 @@ sub coup {
 		delete $stash->{lunch}{king}; #removes king->nick and king->selected timestamp
 
 		# Reset coup vars
+        # TODO: move this under {lunch}{king} so deleting the king resets everything
 		$stash->{coup}{active} = 0;
 		$stash->{lunch}{coup}{vote} = { };
 
@@ -196,6 +202,41 @@ sub king {
 	}
 
 
+}
+
+sub abdicate {
+    my ($self, $message) = @_;
+
+    my $core = DoubleDown::Core->instance;
+    my $stash = $core->_stash;
+    my $nick = $message->nick;
+    my $channel = $message->channel;
+    my $con = $core->irc->_con;
+
+    if (!defined $stash->{lunch}{king}{nick}) {
+        $con->send_msg(undef, PRIVMSG => $channel, String::IRC->new("There is currently no king!")->green('black'));
+        return;
+    }
+
+    if ($stash->{lunch}{king}{nick} eq $nick) {
+        $core->debug(message => "King is abdicating!", color => $core->debug_magenta);
+
+        $con->send_msg(undef, PRIVMSG => $channel, String::IRC->new("*** $nick has abdicated the throne! ***")->yellow('black') );
+        $con->send_msg(undef, PRIVMSG => $channel, String::IRC->new(sprintf "Down with coward %s!", $stash->{lunch}{king}{nick})->yellow('black'));
+
+        # Reset king vars
+        delete $stash->{lunch}{king};
+
+        # Reset coup vars
+        # TODO: move this under {lunch}{king} so deleting the king resets everything
+        $stash->{coup}{active} = 0;
+        $stash->{lunch}{coup}{vote} = {};
+
+        return;
+    } else {
+        $con->send_msg(undef, PRIVMSG => $nick, String::IRC->new("You are not the king!")->green('black'));
+        return;
+    }
 }
 
 1;
