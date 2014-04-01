@@ -38,6 +38,6 @@ Or if you have a specific channel/server used for debuging, you might want to cr
 
 ## Execution ##
 
-		./dbldown --help
+    ./dbldown --help
     ./dbldown
     ./dbldown -c debug
